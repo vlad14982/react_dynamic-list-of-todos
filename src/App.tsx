@@ -21,23 +21,36 @@ export const App: React.FC = () => {
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    const feychTodos = async () => {
-      const todosData = await getTodos();
+    const fetchTodos = async () => {
+      try {
+        const todosData = await getTodos();
 
-      setTodos(todosData);
-      setLoading(false);
+        setTodos(todosData);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch todos. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
     };
 
-    feychTodos();
+    fetchTodos();
   }, []);
 
   const openModal = async (todo: Todo) => {
     setSelectedTodo(todo);
     setLoadingUser(true);
-    const userData = await getUser(todo.userId);
 
-    setUser(userData);
-    setLoadingUser(false);
+    try {
+      const userData = await getUser(todo.userId);
+
+      setUser(userData);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch user data. Please try again later.');
+    } finally {
+      setLoadingUser(false);
+    }
   };
 
   const closeModal = () => {

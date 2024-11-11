@@ -32,7 +32,6 @@ export const TodoModal: React.FC<TodoModalProps> = ({
               Todo #{todo.id}
             </div>
 
-            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <button
               type="button"
               className="delete"
@@ -47,7 +46,6 @@ export const TodoModal: React.FC<TodoModalProps> = ({
             </p>
 
             <p className="block" data-cy="modal-user">
-              {/* <strong className="has-text-success">Done</strong> */}
               <strong className="has-text-danger">
                 {todo.completed ? 'Done' : 'Planned'}
               </strong>

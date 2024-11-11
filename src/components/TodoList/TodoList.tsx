@@ -16,19 +16,20 @@ export const TodoList: React.FC<TodoListProps> = ({
   query,
   selectedTodoId,
 }) => {
-  const filteredTodos = todos
-    .filter(todo => {
-      if (filter === 'completed') {
-        return todo.completed;
-      }
+  const isSelected = (todoId: number, selectedId: number | null) => {
+    return selectedId === todoId;
+  };
 
-      if (filter === 'active') {
-        return !todo.completed;
-      }
+  const filteredTodos = todos.filter(todo => {
+    const matchesFilter =
+      filter === 'all' ||
+      (filter === 'completed' && todo.completed) ||
+      (filter === 'active' && !todo.completed);
 
-      return true;
-    })
-    .filter(todo => todo.title.toLowerCase().includes(query.toLowerCase()));
+    const matchesQuery = todo.title.toLowerCase().includes(query.toLowerCase());
+
+    return matchesFilter && matchesQuery;
+  });
 
   return (
     <table className="table is-narrow is-fullwidth">
@@ -51,7 +52,9 @@ export const TodoList: React.FC<TodoListProps> = ({
             key={todo.id}
             data-cy="todo"
             className={
-              selectedTodoId === todo.id ? 'has-background-info-light' : ''
+              isSelected(todo.id, selectedTodoId)
+                ? 'has-background-info-light'
+                : ''
             }
           >
             <td className="is-vcentered">{todo.id}</td>
@@ -81,7 +84,7 @@ export const TodoList: React.FC<TodoListProps> = ({
                 <span className="icon">
                   <i
                     className={
-                      selectedTodoId === todo.id
+                      isSelected(todo.id, selectedTodoId)
                         ? 'far fa-eye-slash'
                         : 'far fa-eye'
                     }

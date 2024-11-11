@@ -20,8 +20,8 @@ export const TodoFilter: React.FC<TodoFilterProps> = ({
           <select
             data-cy="statusSelect"
             value={filter}
-            onChange={e =>
-              setFilter(e.target.value as 'all' | 'completed' | 'active')
+            onChange={
+              e => setFilter(e.target.value as 'all' | 'completed' | 'active') // Type assertion for filter value
             }
           >
             <option value="all">All</option>
@@ -45,7 +45,6 @@ export const TodoFilter: React.FC<TodoFilterProps> = ({
         </span>
         {query && (
           <span className="icon is-right" style={{ pointerEvents: 'all' }}>
-            {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
             <button
               data-cy="clearSearchButton"
               type="button"
